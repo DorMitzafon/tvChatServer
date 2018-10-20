@@ -1,6 +1,7 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+const PORT = process.env.PORT || 5000;
 
 class Server {
     constructor() {
@@ -8,17 +9,25 @@ class Server {
     }
 
     initServer() {
-        http.listen(3010, function(){
-            console.log('listening on *:3010');
-        });
-
-        app.get('/video1', function(req, res){
-            res.send({hi: 'hello'});
+        http.listen(PORT, function(){
+            console.log(`listening on *:${ PORT }`);
         });
 
         io.on('connection', (socket) => {
-            socket.on('chat message', (msg) => {
-                socket.broadcast.emit('chat message', msg);
+            socket.on('football', (msg) => {
+                socket.broadcast.emit('football', msg);
+            });
+            socket.on('bigBrother', (msg) => {
+                socket.broadcast.emit('bigBrother', msg);
+            });
+            socket.on('realityShow', (msg) => {
+                socket.broadcast.emit('realityShow', msg);
+            });
+            socket.on('ninja', (msg) => {
+                socket.broadcast.emit('ninja', msg);
+            });
+            socket.on('masterChef', (msg) => {
+                socket.broadcast.emit('masterChef', msg);
             });
         });
     }
